@@ -9,6 +9,8 @@ function App() {
   const [pokemons, setpokemons] = useState([]);
   const [nextURL, setnextURL] = useState("");
   const [prevURL, setprevURL] = useState("");
+  const [pageNum, setpageNum] = useState(1);
+  const [displayPageNum, setdisplaypageNum] = useState(1);
   useEffect(() => {
     const fetchPokemonData = async () => {
       //全てのポケモンデータを取得
@@ -16,7 +18,7 @@ function App() {
       // 各ポケモンの詳細データを取得
       loadPokemon(res.results);
       setnextURL(res.next);
-      setprevURL(res.previous);//null
+      setprevURL(res.previous);
       setloading(false);
     }
     fetchPokemonData(intialURL);
@@ -49,6 +51,10 @@ function App() {
   }
 
   const handlePrevPage = async () => {
+    if (pageNum > 1) {
+      setpageNum(pageNum - 1);
+      setdisplaypageNum(pageNum - 1);
+    }
     if (!prevURL) return;
     setloading(true);
     let data = await getAllPokemon(prevURL);
@@ -58,6 +64,8 @@ function App() {
     setloading(false);
   };
   const handleNextPage = async () => {
+    setpageNum(pageNum + 1);
+    setdisplaypageNum(pageNum + 1);
     setloading(true);
     let data = await getAllPokemon(nextURL);
     await loadPokemon(data.results);
@@ -66,13 +74,45 @@ function App() {
     setloading(false);
   };
 
-  console.log(pokemons)
+  const search = async () => {
+    if (!pageNum) {
+      setpageNum(parseInt(1));
+      setdisplaypageNum(parseInt(1));
+    } else {
+      setdisplaypageNum(pageNum);
+    }
+    const offset = (pageNum - 1) * 20;
+    setloading(true);
+    let data = await getAllPokemon("https://pokeapi.co/api/v2/pokemon?offset=" + offset + "&limit=20");
+    await loadPokemon(data.results);
+    setprevURL(data.previous);
+    setnextURL(data.next);
+    setloading(false);
+  }
+
+
   return (
     <div className="App">
       {loading ? (
         <h1 className='loading'>Now Loading...</h1>
       ) : (
         <>
+          <header className='header'>
+            <h2 className='title'>ポケモン図鑑</h2>
+            <div className="header_wrap">
+              <h2 className='pageNum'>
+                {displayPageNum}ページ
+              </h2>
+              <h2 className='pageID'>
+                No.{(displayPageNum - 1) * 20 + 1}〜{displayPageNum * 20}
+              </h2>
+            </div>
+            <div className='search'>
+              <p>ページ数検索</p>
+              <input type="number" placeholder='半角数字' value={pageNum} onChange={(event) => setpageNum(parseInt(event.target.value))}></input>
+              <button type="button" onClick={search}>送信</button>
+            </div>
+          </header>
           <ul className='App_cards'>
             {pokemons.map((pokemon, i) => {
               return (
@@ -85,6 +125,7 @@ function App() {
             <button className='next' onClick={handleNextPage}>次へ</button>
           </div>
         </>
+
       )}
     </div>
   );
