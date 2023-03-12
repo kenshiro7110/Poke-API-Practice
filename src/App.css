@@ -1,0 +1,112 @@
+li {
+  list-style-type: none;
+}
+
+.App {
+  width: 100vw;
+  height: 100%;
+  position: relative;
+}
+.App .loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 30px;
+  text-align: center;
+}
+.App .App_cards {
+  max-width: 1015px;
+  margin: 0 auto;
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px auto;
+}
+.btn .prev {
+  text-align: center;
+  box-sizing: border-box;
+  display: block;
+  border: 2px solid #447fff;
+  background: #fff;
+  color: #447fff;
+  font-weight: bold;
+  padding: 0.5em 1em 0.5em 2em;
+  line-height: 1.4;
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.btn .prev::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  margin-top: -6px;
+  transform: rotate(225deg);
+  border-top: 2px solid #447fff;
+  border-right: 2px solid #447fff;
+  transition: left 0.3s;
+}
+.btn .prev:hover {
+  background: #447fff;
+  color: #fff;
+}
+.btn .prev:hover::after {
+  border-color: #fff;
+  left: 7px;
+}
+.btn .prev:active, .btn .prev:focus {
+  opacity: 0.8;
+}
+.btn .next {
+  text-align: center;
+  box-sizing: border-box;
+  display: block;
+  border: 2px solid #447fff;
+  background: #fff;
+  color: #447fff;
+  font-weight: bold;
+  padding: 0.5em 2em 0.5em 1em;
+  line-height: 1.4;
+  max-width: 300px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.btn .next::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  margin-top: -6px;
+  transform: rotate(45deg);
+  border-top: 2px solid #447fff;
+  border-right: 2px solid #447fff;
+  transition: right 0.3s;
+}
+.btn .next:hover {
+  background: #447fff;
+  color: #fff;
+}
+.btn .next:hover::after {
+  border-color: #fff;
+  right: 7px;
+}
+.btn .next:active, .btn .next:focus {
+  opacity: 0.8;
+}
